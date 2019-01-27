@@ -27,20 +27,19 @@ const Pagination = ({pageCount, pageSelected, openPage = f=>f}) =>
                 forcePage               = {pageSelected}
             />
         </div>
-        <div className = 'd-inline-flex col-lg-1'>
+        <div className = 'd-inline-flex col-lg-2'>
             <input  
-                    className = 'fd-inline-flex'
+                    className = 'form-control'
                     type="number" 
                     min = '1'
-                    defaultValue = {pageSelected+1}
-                    size="3"
+                    size="6"
                     name="page"
                     onBlur = {({target}) => {
                         pageSelected = parseInt(target.value) - 1
                         if(pageSelected<=pageCount){
                             openPage({selected: pageSelected})
-                            target.value = ''
                         }
+                        target.value = ''
                     }}
             />
         </div>

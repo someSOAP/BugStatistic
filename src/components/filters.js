@@ -7,16 +7,22 @@ class Filters extends React.Component{
         const { options, setter, dateValues, filterChart =f=>f } = this.props
         const { systems, criticalnesses } = options
         return(
-            <div>
+            <div className = 'container-fluid'>
                 <h2>Фильтр данных для графика</h2>
-                <Select 
-                    options = { systems } 
-                    onSelect = {({target}) => setter('chartData', target.value, 'system')}
-                />
-                <Select 
-                    options = { criticalnesses }
-                    onSelect = {({target}) => setter('chartData', target.value, 'criticalness')}
-                />
+                <div className = 'd-inline-block'>
+                    <strong>Система:</strong>
+                    <Select 
+                        options = { systems } 
+                        onSelect = {({target}) => setter('chartData', target.value, 'system')}
+                    />
+                </div>
+                <div className = 'd-inline-block'>
+                    <strong>Критичность:</strong>
+                    <Select 
+                        options = { criticalnesses }
+                        onSelect = {({target}) => setter('chartData', target.value, 'criticalness')}
+                    />
+                </div>
                 <DatePic
                     placeholder = "Дата от:"
                     onChange = {(value) => setter('chartData', value, 'startDate')}

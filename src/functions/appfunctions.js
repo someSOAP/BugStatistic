@@ -1,4 +1,4 @@
-import {empty, rowsOnPage}  from '../constants'
+import {empty, rowsOnPage,  filtersInitialState, chartDataInitalState}  from '../constants'
 
 function setStateValue(field, value, type){
   const { state } = this
@@ -138,11 +138,20 @@ function filterData(){
   })
 }
 
+
+function clearFilters(){
+  this.setState({
+    ...this.state,
+    ...filtersInitialState
+  })
+}
+
 export {  
           filterChart,
           openPage,
           getFields,
           paginate,
           setStateValue,
-          filterData
+          filterData,
+          clearFilters
         }

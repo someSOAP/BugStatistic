@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import Table                from './components/prescomponents/table'
-import Pagination           from './components/pagination'
 import Filters              from './components/filters'
 import * as AppF            from "./functions/appfunctions"; 
 import * as C               from './constants/'
 import LineChart            from './components/chart'
-// import './App.css';
+
 const data = require('./data/bugs_for_test.json')
 window.sber_data = data     //для отладки данных через браузерную консоль
 
@@ -67,57 +66,57 @@ class App extends Component {
     this.setStateValue    = AppF.setStateValue.bind(this)
     this.filterData       = AppF.filterData.bind(this)
     this.filterChart      = AppF.filterChart.bind(this)
+    this.clearFilters     = AppF.clearFilters.bind(this)
   }
 
 
   render() {
-    const { state, openPage, setStateValue, filterData, filterChart } = this
+    const { state, openPage, setStateValue, filterData, filterChart, clearFilters } = this
     const { createDate, changeDate, closeDate, paginated, pageSelected} = state
-    const { xAxisLabels, yAxisValues, system } = state.chartData
+    const { xAxisLabels, yAxisValues, system, criticalness } = state.chartData
     return (
-      <div className="wrapper">
-      <Filters
-        options = {options}
-        setter  = {setStateValue}
-        filterChart = {filterChart}
-        dateValues = {{
-          startDate:  state.chartData.startDate,
-          endDate:    state.chartData.endDate 
-        }}
-      />
-      <div>{
-        xAxisLabels.length ? 
-        <LineChart
-          title       = "Данные"
-          system      = {system}
-          xAxisLabels = {xAxisLabels}
-          yAxisValues = {yAxisValues}
-        /> :  <div className = "alert alert-info" role="alert">
-                  <strong>Внимание!</strong> Задайте корректные параметры поиска данных для графика
-              </div>
-      }
-      </div>
- 
-        <Table 
-          title           = "Исходные данные"
-          options         = {options}
-          headrows        = {state.data}
-          rows            = {paginated}
-          filters         = {{
-                                setStateValue
-                            }}
-          dateValues      = {{
-                              createDate,
-                              changeDate,
-                              closeDate
-                            }}
+      <div className="wrapper bg-light">
+        <Filters
+          options = {options}
+          setter  = {setStateValue}
+          filterChart = {filterChart}
+          dateValues = {{
+            startDate:  state.chartData.startDate,
+            endDate:    state.chartData.endDate 
+          }}
         />
-        <button onClick = {filterData}> FILTER </button>
-        <Pagination 
-          openPage ={openPage}
-          pageCount = {Math.ceil(state.filtered.length/C.rowsOnPage)}
-          pageSelected = {pageSelected}
-        />
+        <div>{
+          xAxisLabels.length ? 
+          <LineChart
+            title       = {system}
+            lineName    = {criticalness}
+            xAxisLabels = {xAxisLabels}
+            yAxisValues = {yAxisValues}
+          /> :  <div className = "alert alert-info" role="alert">
+                    <strong>Внимание!</strong> Задайте корректные параметры поиска данных для графика
+                </div>
+        }
+        </div>
+  
+          <Table 
+            title           = "Таблица исходных данных"
+            options         = {options}
+            headrows        = {state.data}
+            rows            = {paginated}
+            openPage        ={openPage}
+            pageCount       = {Math.ceil(state.filtered.length/C.rowsOnPage)}
+            pageSelected    = {pageSelected}
+            filters         = {{
+                                  setStateValue,
+                                  clearFilters,
+                                  filterData
+                              }}
+            dateValues      = {{
+                                createDate,
+                                changeDate,
+                                closeDate
+                              }}
+          />
       </div>
     );
   }

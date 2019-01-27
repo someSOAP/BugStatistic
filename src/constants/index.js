@@ -1,4 +1,39 @@
 const empty         = "- не выбрано -"
 const rowsOnPage    = 10
 
-export { empty, rowsOnPage }
+const chartDataInitalState = {
+    system:       empty,
+    criticalness: empty,
+    data:         [],
+    startDate:    undefined,
+    endDate:      undefined,
+    xAxisLabels:  [],
+    yAxisValues:  []
+}
+const filtersInitialState = {
+    //атрибуты поиска по таблице основных данных
+    rowID:        undefined,
+    system:       empty,
+    summary:      undefined,
+    status:       empty,
+    foundAt:      empty,
+    criticalness: empty,
+    deffectType:  empty,
+    createDate:   { value:  undefined,
+                    from:   undefined,
+                    to:     undefined
+                  },
+    changeDate:   { value:  undefined,
+                    from:   undefined,
+                    to:     undefined
+                  },
+    closeDate:    { value:  undefined,
+                    from:   undefined,
+                    to:     undefined
+                  },
+    findMethod:   empty,
+    reopens:      undefined
+  }
+
+
+export { empty, rowsOnPage, filtersInitialState, chartDataInitalState }
