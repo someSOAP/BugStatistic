@@ -1,5 +1,6 @@
-const empty         = "- не выбрано -"
-const rowsOnPage    = 10
+//Константные значения, которые переиспользуются в разных модулях
+const empty         = "- не выбрано -" // значение - не выбрано - используется в компоненте Select и для сравнения при фильтрации
+const rowsOnPage    = 10 //константа отвечает за количество строк отображаемых на странице
 
 const chartDataInitalState = {
     system:       empty,
@@ -10,8 +11,9 @@ const chartDataInitalState = {
     xAxisLabels:  [],
     yAxisValues:  []
 }
+
+//атрибуты поиска по таблице основных данных
 const filtersInitialState = {
-    //атрибуты поиска по таблице основных данных
     rowID:        undefined,
     system:       empty,
     summary:      undefined,

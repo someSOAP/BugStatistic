@@ -7,6 +7,10 @@ import $                from 'jquery'
 
 const { valuesToArray, attrsToArray, formatStr, createFilterField } = TableF
 
+// функция по очистке фильтров таблицы
+// в данном случае, использовать jQuery оказалось проще,
+// чем задействовать React для очистки значений полей фильтрации в этой компоненте
+
 function clearInputs(){
     const inputs    = [...$('thead input')]
     inputs.forEach((item) => item.value = '')
@@ -33,7 +37,7 @@ class Table extends React.Component{
                             attrsToArray(headrows[0]).map((attr, i) => 
                                     <th scope="col">
                                         {formatStr(attr)}  
-                                            {createFilterField(attr, options, filters, dateValues, i)}
+                                        {createFilterField(attr, options, filters, dateValues, i)}
                                     </th>
                             )
                         }

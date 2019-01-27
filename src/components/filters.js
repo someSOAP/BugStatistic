@@ -2,11 +2,15 @@ import React        from 'react'
 import Select       from './prescomponents/select'
 import DatePic      from './prescomponents/datepic'
 
+
+//компонента с фильтрами для построения графика
 class Filters extends React.Component{
     render(){
         const { options, setter, dateValues, filterChart =f=>f } = this.props
         const { systems, criticalnesses } = options
         const { startDate, endDate } = dateValues
+        // функция по обновлению графика, в случае когда график уже построен,
+        // но некоторые параметры фильтрации изменены
         const renewChart = () => {
             if(systems && criticalnesses && startDate && endDate){
                 filterChart()

@@ -2,17 +2,24 @@ import React    from 'react'
 import Select   from '../components/prescomponents/select'
 import DatePic  from '../components/prescomponents/datepic'
 import moment   from 'moment'
+// функции, используемые в компоненте таблица или для её посторения,
+// вынесены в этот модуль
 
+
+//преобразуем значения объектов в массив
+// на основе этих значений строим строки таблицы
 function valuesToArray(obj){
 	let values = []
 	for(let key in obj ){
+        //проверяем, является ли значение стокой даты
         moment(obj[key], moment.ISO_8601, true).isValid() ? 
         values.push(new Date(obj[key]).toLocaleDateString()) :
         values.push(obj[key])  
     }
 	return values
 }
-
+//преобразуем ключи объекта в массив
+// на основе этих значений будем строить заголовок таблицы
 function attrsToArray(obj){
     let values = []
     for(let key in obj)
@@ -20,18 +27,33 @@ function attrsToArray(obj){
     return values
 }
 
+// преобразуем строку заголовка (перевод на русский некоторых значений)
+// и убираем "_", если есть. 
 function formatStr(string){
     function capitalizeFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
-    return capitalizeFirstLetter(string.replace('_', " "))
+    switch (string) {
+        case "System":
+            return "Система"
+            break;
+        case "Summary":
+            return "Описание"
+        case "reopens_amount":
+            return "Количество переоткрытий"
+        default:
+            return capitalizeFirstLetter(string)
+    }
 }
 
+//компонента - галочка "Кключая пустые"
+// наличие этой галочки определяет влючение в результаты поиска 
+// значений == null 
 const includeNull = (onChange) =>
     <div>Включая пустые: {" "}
         <input type="checkbox" name="Включая пустые" onChange ={onChange}/>
     </div>
-
+// компонента промежуток дат (от-> до)
 const  dateRange = (attr, setter, dateValue) => 
     <span>
         <DatePic placeholder = "Дата от:" selected = {dateValue.from}  onChange = {(value) => setter(attr, value, 'from')}/> 
@@ -42,7 +64,7 @@ const  dateRange = (attr, setter, dateValue) =>
         }
     </span> 
 
-
+// в зависимости от названия поля, добавляем к нему подходящий фильтр
 function createFilterField(attr, options, filters, dateValues){
     const { systems, statuses, foundAt, deffectType, criticalnesses, findMethod } = options
     const { setStateValue } = filters

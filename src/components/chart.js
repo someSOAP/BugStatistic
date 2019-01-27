@@ -1,6 +1,8 @@
 import React from 'react';
 import {Line} from 'react-chartjs-2';
 
+// Данные по-умолчанию, которые использовались в демонстрационном варианте библиотеки ChartsJs2
+// На основе этого объекта мы формируем свои данные
 const data = {
   labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
   datasets: [
@@ -37,6 +39,7 @@ export default class LineChart extends React.Component{
     render() {
         const { title, lineName, xAxisLabels, yAxisValues } = this.props
         const dataset = data.datasets[0]
+        //берём демонстрационные даныне и заменяем в них поля data и label на наши из props
         const newDataset = {
             ...dataset,
             data: yAxisValues,

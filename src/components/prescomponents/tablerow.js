@@ -1,5 +1,8 @@
 import React from 'react'
 
+
+// Компонента создаёт строку в таблице 
+// с колонками из параметра args
 const Row = ({args}) => 
     <tr>
         {

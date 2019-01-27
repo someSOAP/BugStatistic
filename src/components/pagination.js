@@ -1,6 +1,9 @@
 import React from 'react'
 import ReactPaginate from 'react-paginate'
 
+
+// Компонента пагинации с заданными по-умолчн\анию параметрами
+// Компонента используется в компоненте Table и вызывает функции по открытию страниц данных
 const Pagination = ({pageCount, pageSelected, openPage = f=>f}) =>
     <div>   
         <div className = 'd-inline-flex'>      

@@ -1,18 +1,25 @@
-import {empty, rowsOnPage,  filtersInitialState, chartDataInitalState}  from '../constants'
+import {empty, rowsOnPage,  filtersInitialState}  from '../constants'
 
-function setStateValue(field, value, type){
+// Модуль, который содержит функции, необходимые для фильтрации данных, 
+// пагинации данных, форматирования полей с датами.
+// Все функции импортируются в App и привязываются к компоненте App.
+// Имело место вынести функции в отдельный модуль, чтобы не засорят App
+
+// функция для установки значения атрибута состояния
+function setStateValue(field, value, subValue){ 
   const { state } = this
   let newState = {
     ...state
   }
-  !!type ? newState[field][type] = value :
+  !!subValue ? newState[field][subValue] = value :
   newState[field] = value
   this.setState({
     ...newState
   })
 }
 
-
+// фнукция отображает в таблице страницу,
+// по номеру, который мы выбрали в пагинации
 function openPage({ selected }){
   const { state } = this
   this.setState({
@@ -22,10 +29,11 @@ function openPage({ selected }){
   })
 }
 
-
+// форматируем даты для отображения месяц + год на оси Х графика
 function formatDate(date) {
   const getMonthName = (month) => {
-    const monthes = ['Янв.', 'Фев.', "Мар.", "Апр.", "Май", "Июнь", "Июль", "Авг.", "Сент.", 'Окт.',"Нояб.", "Дек."]
+    const monthes = ['Январь', 'Февраль', "Март", "Апрель", "Май", "Июнь",
+                     "Июль", "Август", "Сентябрь", 'Октябрь',"Ноябрь", "Декабрь"] 
     return monthes[month]
   }  
   var mm = getMonthName(date.getMonth());
@@ -34,6 +42,7 @@ function formatDate(date) {
   return mm + ' ' + yy;
 }
 
+//фильтруем данные для посторения графика на их основе
 function filterChart(){
     const { state } = this
     const { system, criticalness, startDate, endDate } = state.chartData
@@ -47,6 +56,7 @@ function filterChart(){
         return true
     })
     
+    //сортируем данные, чтобы даты отображались в порядке по возрастанию на оси Х
     const data = filteredData.sort(
       (a, b) => {
         const aDate = new Date(a["Дата изменения"])
@@ -57,6 +67,8 @@ function filterChart(){
       } 
     )
 
+    //создаём ХЭШ-ТБЛИЦУ (объек, хотя, в данном случае, он, скорее как Set выстиупает) 
+    // в которой будет храниться ключ (месяц.год) + значение (количество деффектов)
     let labelSet = {}
     data.forEach(
       (item) => {
@@ -65,7 +77,8 @@ function filterChart(){
         labelSet[key] = value  
       }
     )
-
+  
+    //роазделяем ключи и их значения в раздельные массивы (нежно для построения графика)
    let xAxisLabels = []
    let yAxisValues = []
    for(let key in labelSet){
@@ -73,7 +86,7 @@ function filterChart(){
      yAxisValues.push(labelSet[key])
    }
     
-    window.labelSet = labelSet
+   //собираем данные для построения графика в состояние App
     const chartData = {
       ...state.chartData,
       data,
@@ -87,6 +100,8 @@ function filterChart(){
     })
 }
 
+// функция используется для получения всех возможных значений поля в массиве объектов 
+// с помощью этой функции мы определяем справочник типов деффектов, названия систем и т.д.
 function getFields(input, field) {
   var output = [];
   for (var i=0; i < input.length ; ++i)
@@ -96,12 +111,12 @@ function getFields(input, field) {
   return output;
 }
 
-
+//пагинация данных по размеру страницы и номеру
 function paginate(array, page_size, page_number) {
   return array.slice(page_number * page_size, (page_number + 1) * page_size);
 }
 
-
+// фильтрация таблицы исходных данных
 function filterData(){
   const { state } = this
   const { rowID, system, summary, status, foundAt, criticalness, deffectType, createDate, changeDate, closeDate, findMethod, reopens, nullReopens } = state
@@ -112,6 +127,8 @@ function filterData(){
       let itemChangeDate  = item['Дата изменения']  ? new Date(item['Дата изменения'])  : undefined
       let itemCloseDate   = item["Дата закрытия"]   ? new Date(item['Дата закрытия'])   : undefined
 
+      // Да тут можно было просто вернуть false если какое-тоусловие не подходит, но я решил 
+      // применить reduce просто для красоты
       if(rowID)                                     filterArray.push(item.ID == rowID)
       if(system && system != empty)                 filterArray.push(item.System == system)
       if(summary)                                   filterArray.push(item.Summary.includes(summary))
@@ -123,15 +140,16 @@ function filterData(){
       if(createDate.to && itemCreateDate)           filterArray.push(itemCreateDate <= createDate.to)
       if(changeDate.from && itemChangeDate)         filterArray.push(itemChangeDate >= changeDate.from)
       if(changeDate.to && itemChangeDate)           filterArray.push(itemChangeDate <= changeDate.to)
-      //TODO добавить поиск включая/исключая пустые
+      //есси дата закрытия включает строки с пустым значением
       if(!closeDate.includeNull && !itemCloseDate){
                                                     filterArray.push(false)
       }else{
         if(!!itemCloseDate && closeDate.from)       filterArray.push(itemCloseDate >= closeDate.from)
         if(!!itemCloseDate && closeDate.to)         filterArray.push(itemCloseDate <= closeDate.to)
       }                               
-      /**/
+
       if(findMethod && findMethod != empty)         filterArray.push(item['Метод обнаружения'] == findMethod)
+     // если reopens_amount включает строки с пустым значением
       if(nullReopens && !item.reopens_amount){
                                                     filterArray.push(true)
       }else{
@@ -149,14 +167,15 @@ function filterData(){
   })
 }
 
-
+// очищаем фильтры таблицы исходных данных
 function clearFilters(){
   this.setState({
     ...this.state,
     ...filtersInitialState,
-    closeDate:  {},
+    closeDate:  {includeNull: true},
     changeDate: {},
     createDate: {},
+    nullReopens: true
   })
 }
 

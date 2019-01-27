@@ -3,7 +3,7 @@ import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css";
 
 
-
+// Компонент выбора даты с заданными по-умолчанию настройками
 const DatePic = ({selected, onChange = f=>f, placeholder = ''}) => {
     return <DatePicker 
                 onChange                = {onChange}
@@ -14,10 +14,10 @@ const DatePic = ({selected, onChange = f=>f, placeholder = ''}) => {
                 className               = "form-control form-control-sm"
                 yearDropdownItemNumber  = {5}
                 isClearable             = {true}
+                placeholderText = {placeholder}
                 showMonthDropdown
                 showYearDropdown
                 scrollableYearDropdown
-                placeholderText = {placeholder}
             />
         
 } 
