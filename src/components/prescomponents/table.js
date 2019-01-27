@@ -9,14 +9,14 @@ const Table = ({headrows, rows, options, filters, dateValues, title }) => {
     return(
         <div>
             <h2>{title}</h2>
-            <table className='ReactTable'>
-                <thead>
+            <table className='table table-striped table-reflow'>
+                <thead className = 'thead-dark'>
                     {
-                        attrsToArray(headrows[0]).map(attr => 
+                        attrsToArray(headrows[0]).map((attr, i) => 
                                 <th>
-                                    <label>
-                                        {formatStr(attr)}
-                                        {createFilterField(attr, options, filters, dateValues)}
+                                    {/* <div className = 'mt-1'>{formatStr(attr)}</div> */}
+                                    <label> {formatStr(attr)}  
+                                        {createFilterField(attr, options, filters, dateValues, i)}
                                     </label>
                                 </th>
                         )

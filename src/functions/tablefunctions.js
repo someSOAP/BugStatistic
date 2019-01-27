@@ -40,9 +40,9 @@ function createFilterField(attr, options, filters, dateValues){
     const { createDate, changeDate, closeDate } = dateValues
     switch(attr){
         case 'ID':
-            return <input type = 'number' min = '0' onBlur = {({target}) => setStateValue('rowID', target.value)}/>
+            return <input className = 'form-control' type = 'number' min = '0' onBlur = {({target}) => setStateValue('rowID', target.value)}/>
         case "reopens_amount": 
-            return <input type = 'number' min = '0' onBlur = {({target}) => setStateValue('reopens', target.value)}/>
+            return <input className = 'form-control' type = 'number' min = '0' onBlur = {({target}) => setStateValue('reopens', target.value)}/>
         case 'System':
             return <Select options = {systems} onSelect = {({target}) => setStateValue('system', target.value)}/>
         case 'Состояние': 
@@ -62,9 +62,9 @@ function createFilterField(attr, options, filters, dateValues){
         case "Метод обнаружения": 
             return <Select options = {findMethod} onSelect = {({target}) => setStateValue('findMethod', target.value)}/>
         case 'Summary':
-            return <input type = 'text' onBlur = {({target}) => setStateValue('summary', target.value)}/>
+            return <input className = 'form-control' type = 'text' onBlur = {({target}) => setStateValue('summary', target.value)}/>
         default :
-            return <input type = 'text' />
+            return <input className = 'form-control' type = 'text' />
 
     }
 }

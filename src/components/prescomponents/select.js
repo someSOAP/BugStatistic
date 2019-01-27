@@ -3,8 +3,7 @@ import * as C from '../../constants'
 
 const Select = ({ label, options, onSelect =f=>f }) => {
     return(
-        <label>{label ? label + ": " : ""}
-            <select className = 'ReactSelect' onChange = {onSelect}>
+            <select className = 'custom-select' onChange = {onSelect}>
                 <option key = {'empty'}>{C.empty}</option>
                 {options ?
                     options.map(
@@ -13,7 +12,7 @@ const Select = ({ label, options, onSelect =f=>f }) => {
                     ) : null
                 }
             </select>
-        </label>
+
     )
 }
 

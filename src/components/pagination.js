@@ -2,33 +2,47 @@ import React from 'react'
 import ReactPaginate from 'react-paginate'
 
 const Pagination = ({pageCount, pageSelected, openPage = f=>f}) =>
-    <div className = 'pageSelect'>
-        <ReactPaginate
-            pageCount={pageCount}
-            previousLabel={'Предыдущая'}
-            nextLabel={'Следующая'}
-            breakLabel={'...'}
-            breakClassName={'break-me'}
-            marginPagesDisplayed={2}
-            pageRangeDisplayed={2}
-            containerClassName={'pagination'}
-            subContainerClassName={'pagesPagination'}
-            activeClassName={'activePage'}
-            onPageChange = {openPage}
-            initialPage = {pageSelected}
-            forcePage = {pageSelected}
-        />
-        <input  type="number" 
-                defaultValue = {pageSelected+1}
-                size="3"
-                name="page"
-                onBlur = {({target}) => {
-                    pageSelected = parseInt(target.value)
-                    if(pageSelected<=pageCount){
-                        openPage({selected: pageSelected})
-                        target.value = ''
-                    }
-                }}
-        />
+    <div>   
+        <div className = 'd-inline-flex'>      
+            <ReactPaginate
+                pageCount               = {pageCount}
+                previousLabel           = {'Предыдущая'}
+                nextLabel               = {'Следующая'}
+                breakLabel              = {'...'}
+                breakClassName          = {'page-item'}
+                breakLinkClassName      = {'page-link'}
+                marginPagesDisplayed    = {2}
+                pageRangeDisplayed      = {2}
+                containerClassName      = {'pagination'}
+                pageClassName           = {'page-item'}
+                pageLinkClassName       = {'page-link'}
+                activeClassName         = {'page-item active'}
+                previousClassName       = {'page-item'}
+                nextClassName           = {'page-item'}
+                previousLinkClassName   = {'page-link'}
+                nextLinkClassName       = {'page-link'}
+                disabledClassName       = {'page-item disabled'}
+                onPageChange            = {openPage}
+                initialPage             = {pageSelected}
+                forcePage               = {pageSelected}
+            />
+        </div>
+        <div className = 'd-inline-flex col-lg-1'>
+            <input  
+                    className = 'fd-inline-flex'
+                    type="number" 
+                    min = '1'
+                    defaultValue = {pageSelected+1}
+                    size="3"
+                    name="page"
+                    onBlur = {({target}) => {
+                        pageSelected = parseInt(target.value) - 1
+                        if(pageSelected<=pageCount){
+                            openPage({selected: pageSelected})
+                            target.value = ''
+                        }
+                    }}
+            />
+        </div>
     </div>
 export default Pagination

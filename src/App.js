@@ -4,8 +4,8 @@ import Pagination           from './components/pagination'
 import Filters              from './components/filters'
 import * as AppF            from "./functions/appfunctions"; 
 import * as C               from './constants/'
-import LineChart          from './components/chart'
-import './App.css';
+import LineChart            from './components/chart'
+// import './App.css';
 const data = require('./data/bugs_for_test.json')
 window.sber_data = data     //для отладки данных через браузерную консоль
 
@@ -75,7 +75,7 @@ class App extends Component {
     const { createDate, changeDate, closeDate, paginated, pageSelected} = state
     const { xAxisLabels, yAxisValues, system } = state.chartData
     return (
-      <div className="App">
+      <div className="wrapper">
       <Filters
         options = {options}
         setter  = {setStateValue}
@@ -92,7 +92,9 @@ class App extends Component {
           system      = {system}
           xAxisLabels = {xAxisLabels}
           yAxisValues = {yAxisValues}
-        /> : "Нет данных"
+        /> :  <div className = "alert alert-info" role="alert">
+                  <strong>Внимание!</strong> Задайте корректные параметры поиска данных для графика
+              </div>
       }
       </div>
  
