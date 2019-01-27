@@ -3,7 +3,7 @@ import * as C from '../../constants'
 
 const Select = ({ options, onSelect =f=>f }) => {
     return(
-            <select className = 'custom-select' onChange = {onSelect}>
+            <select className = 'form-control form-control-sm' onChange = {onSelect}>
                 <option key = {'empty'} value = {C.empty}>{C.empty}</option>
                 {options ?
                     options.map(

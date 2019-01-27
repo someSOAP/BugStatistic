@@ -27,14 +27,13 @@ class Table extends React.Component{
         return(
             <div>
                 <h2>{title}</h2>
-                <table className='table table-striped table-reflow'>
+                <table className='table table-bordered table-striped table-hover'>
                     <thead className = 'thead-dark'>
                         {
                             attrsToArray(headrows[0]).map((attr, i) => 
-                                    <th>
-                                        <label> {formatStr(attr)}  
+                                    <th scope="col">
+                                        {formatStr(attr)}  
                                             {createFilterField(attr, options, filters, dateValues, i)}
-                                        </label>
                                     </th>
                             )
                         }

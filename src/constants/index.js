@@ -19,15 +19,15 @@ const filtersInitialState = {
     foundAt:      empty,
     criticalness: empty,
     deffectType:  empty,
-    createDate:   { value:  undefined,
+    createDate:   { 
                     from:   undefined,
                     to:     undefined
                   },
-    changeDate:   { value:  undefined,
+    changeDate:   { 
                     from:   undefined,
                     to:     undefined
                   },
-    closeDate:    { value:  undefined,
+    closeDate:    { 
                     from:   undefined,
                     to:     undefined
                   },

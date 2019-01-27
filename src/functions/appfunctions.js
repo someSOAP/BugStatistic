@@ -104,13 +104,13 @@ function paginate(array, page_size, page_number) {
 
 function filterData(){
   const { state } = this
-  const { rowID, system, summary, status, foundAt, criticalness, deffectType, createDate, changeDate, closeDate, findMethod, reopens } = state
+  const { rowID, system, summary, status, foundAt, criticalness, deffectType, createDate, changeDate, closeDate, findMethod, reopens, nullReopens } = state
   const filtered = state.data.filter(
     (item) => {
       let filterArray = []
       let itemCreateDate  = item["Дата создания"]   ? new Date(item["Дата создания"])   : undefined
       let itemChangeDate  = item['Дата изменения']  ? new Date(item['Дата изменения'])  : undefined
-      let itemCloseDate   = item['Дата закрытия']   ? new Date(item['Дата закрытия'])   : undefined
+      let itemCloseDate   = item["Дата закрытия"]   ? new Date(item['Дата закрытия'])   : undefined
 
       if(rowID)                                     filterArray.push(item.ID == rowID)
       if(system && system != empty)                 filterArray.push(item.System == system)
@@ -123,10 +123,21 @@ function filterData(){
       if(createDate.to && itemCreateDate)           filterArray.push(itemCreateDate <= createDate.to)
       if(changeDate.from && itemChangeDate)         filterArray.push(itemChangeDate >= changeDate.from)
       if(changeDate.to && itemChangeDate)           filterArray.push(itemChangeDate <= changeDate.to)
-      if(closeDate.from && itemCloseDate)           filterArray.push(itemCloseDate >= changeDate.from)
-      if(closeDate.to && itemCloseDate)             filterArray.push(itemCloseDate <= changeDate.to)
+      //TODO добавить поиск включая/исключая пустые
+      if(!closeDate.includeNull && !itemCloseDate){
+                                                    filterArray.push(false)
+      }else{
+        if(!!itemCloseDate && closeDate.from)       filterArray.push(itemCloseDate >= closeDate.from)
+        if(!!itemCloseDate && closeDate.to)         filterArray.push(itemCloseDate <= closeDate.to)
+      }                               
+      /**/
       if(findMethod && findMethod != empty)         filterArray.push(item['Метод обнаружения'] == findMethod)
-      if(reopens || reopens === '0')                filterArray.push(item.reopens_amount == reopens)                                   
+      if(nullReopens && !item.reopens_amount){
+                                                    filterArray.push(true)
+      }else{
+        if(reopens || reopens === '0')              filterArray.push(item.reopens_amount == reopens)         
+      }
+
       return filterArray.reduce((a, b) => a&b, true);
     } 
   ) 
@@ -142,7 +153,10 @@ function filterData(){
 function clearFilters(){
   this.setState({
     ...this.state,
-    ...filtersInitialState
+    ...filtersInitialState,
+    closeDate:  {},
+    changeDate: {},
+    createDate: {},
   })
 }
 

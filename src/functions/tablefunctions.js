@@ -27,10 +27,19 @@ function formatStr(string){
     return capitalizeFirstLetter(string.replace('_', " "))
 }
 
+const includeNull = (onChange) =>
+    <div>Включая пустые: {" "}
+        <input type="checkbox" name="Включая пустые" onChange ={onChange}/>
+    </div>
+
 const  dateRange = (attr, setter, dateValue) => 
     <span>
         <DatePic placeholder = "Дата от:" selected = {dateValue.from}  onChange = {(value) => setter(attr, value, 'from')}/> 
         <DatePic placeholder = "Дата до:" selected = {dateValue.to}    onChange = {(value) => setter(attr, value, 'to')}/>
+        {   
+            (attr === 'closeDate') ?  
+            includeNull(({target}) => setter(attr, target.checked, 'includeNull')) : ''
+        }
     </span> 
 
 
@@ -40,9 +49,12 @@ function createFilterField(attr, options, filters, dateValues){
     const { createDate, changeDate, closeDate } = dateValues
     switch(attr){
         case 'ID':
-            return <input className = 'form-control' type = 'number' min = '0' onBlur = {({target}) => setStateValue('rowID', target.value)}/>
+            return <input style = {{float: "left"}} className = 'form-control form-control-sm' type = 'number' min = '0' onBlur = {({target}) => setStateValue('rowID', target.value)}/>
         case "reopens_amount": 
-            return <input className = 'form-control' type = 'number' min = '0' onBlur = {({target}) => setStateValue('reopens', target.value)}/>
+            return <div>
+                        <input className = 'form-control form-control-sm' type = 'number' min = '0' onBlur = {({target}) => setStateValue('reopens', target.value)}/>
+                        {includeNull(({target})=> setStateValue('nullReopens', target.checked))}
+                    </div>
         case 'System':
             return <Select options = {systems} onSelect = {({target}) => setStateValue('system', target.value)}/>
         case 'Состояние': 
@@ -62,9 +74,9 @@ function createFilterField(attr, options, filters, dateValues){
         case "Метод обнаружения": 
             return <Select options = {findMethod} onSelect = {({target}) => setStateValue('findMethod', target.value)}/>
         case 'Summary':
-            return <input className = 'form-control' type = 'text' onBlur = {({target}) => setStateValue('summary', target.value)}/>
+            return <input className = 'form-control form-control-sm' type = 'text' onBlur = {({target}) => setStateValue('summary', target.value)}/>
         default :
-            return <input className = 'form-control' type = 'text' />
+            return <input className = 'form-control form-control-sm' type = 'text' />
 
     }
 }

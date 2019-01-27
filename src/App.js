@@ -76,6 +76,12 @@ class App extends Component {
     const { xAxisLabels, yAxisValues, system, criticalness } = state.chartData
     return (
       <div className="wrapper bg-light">
+      {/* <input 
+          type="file"
+          class="form-control-file"
+          id="exampleFormControlFile1"
+          onChange = {(event) => console.log(event)}
+      /> */}
         <Filters
           options = {options}
           setter  = {setStateValue}
