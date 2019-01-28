@@ -85,11 +85,15 @@ class App extends Component {
   
     if (typeof window.FileReader !== 'function') {
       alert("Чтение файлов не поддерживается вашим браузером");
-      return;
+      return
     }
 
     const input = $('#fileInput').get(0);
     const file = input.files[0];
+    if(!file){
+      alert('Необходимо загрузить файл')
+      return
+    }
     if(file.type !== 'application/json'){
       alert('Загружен файл неверного типа. Необходимо загрузить файл с расширением JSON')
       return
