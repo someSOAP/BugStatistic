@@ -85,11 +85,15 @@ class App extends Component {
   
     if (typeof window.FileReader !== 'function') {
       alert("Чтение файлов не поддерживается вашим браузером");
-      return;
+      return
     }
 
     const input = $('#fileInput').get(0);
     const file = input.files[0];
+    if(!file){
+      alert('Необходимо загрузить файл')
+      return
+    }
     if(file.type !== 'application/json'){
       alert('Загружен файл неверного типа. Необходимо загрузить файл с расширением JSON')
       return
@@ -105,8 +109,9 @@ class App extends Component {
     const { xAxisLabels, yAxisValues, system, criticalness } = state.chartData
     return (
       <div className="wrapper bg-light">
+      <small>По умолчанию импортирован фалй src/data/bugs_for_test.json. Но, также, можно импортировать аналогичный.</small>
       <div className = "container-fluid bg-info">
-        <h3 className = 'd-inline-block'>Загрузите кастомный JSON:  </h3>
+        <h3 className = 'd-inline-block'>Данные для обработки:{" "} </h3>
         <input 
             className = 'd-inline form-control-fil'
             type="file"
@@ -115,7 +120,8 @@ class App extends Component {
         />
         <button
           className = 'btn btn-secondary' 
-          onClick = {this.loadFile}>Загрузить</button>
+          onClick = {this.loadFile}>Загрузить
+        </button>
       </div>
         <Filters
           options = {options}
