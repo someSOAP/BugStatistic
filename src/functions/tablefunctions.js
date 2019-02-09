@@ -9,22 +9,12 @@ import moment   from 'moment'
 //преобразуем значения объектов в массив
 // на основе этих значений строим строки таблицы
 function valuesToArray(obj){
-	let values = []
-	for(let key in obj ){
-        //проверяем, является ли значение стокой даты
-        moment(obj[key], moment.ISO_8601, true).isValid() ? 
-        values.push(new Date(obj[key]).toLocaleDateString()) :
-        values.push(obj[key])  
-    }
-	return values
+    return Object.values(obj)
 }
 //преобразуем ключи объекта в массив
 // на основе этих значений будем строить заголовок таблицы
 function attrsToArray(obj){
-    let values = []
-    for(let key in obj)
-    values.push(key)
-    return values
+    return Object.keys(obj)
 }
 
 // преобразуем строку заголовка (перевод на русский некоторых значений)

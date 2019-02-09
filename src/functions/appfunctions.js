@@ -73,19 +73,15 @@ function filterChart(){
     data.forEach(
       (item) => {
         const key     = formatDate(new Date(item["Дата изменения"]))
-        const value   = labelSet[key] !== undefined ? labelSet[key] +1 : 0
+        const value   = labelSet[key] !== undefined ? labelSet[key] +1 : 1
         labelSet[key] = value  
       }
     )
   
-    //роазделяем ключи и их значения в раздельные массивы (нежно для построения графика)
-   let xAxisLabels = []
-   let yAxisValues = []
-   for(let key in labelSet){
-     xAxisLabels.push(key)
-     yAxisValues.push(labelSet[key])
-   }
-    
+    //разделяем ключи и их значения в раздельные массивы (нежно для построения графика)
+   let xAxisLabels = Object.keys(labelSet)
+   let yAxisValues = Object.values(labelSet)
+
    //собираем данные для построения графика в состояние App
     const chartData = {
       ...state.chartData,
@@ -156,7 +152,7 @@ function filterData(){
         if(reopens || reopens === '0')              filterArray.push(item.reopens_amount == reopens)         
       }
 
-      return filterArray.reduce((a, b) => a&b, true);
+      return filterArray.reduce((a, b) => a&&b, true);
     } 
   ) 
   this.setState({
