@@ -6,6 +6,7 @@ import * as C               from './constants/'
 import LineChart            from './components/chart'
 import $                    from 'jquery'
 import { Container }        from "react-bootstrap";
+import Info                 from './components/Info'
 const data = require('./data/bugs_for_test.json')
 
 //получаем все возможные значения для указанных полей
@@ -110,48 +111,37 @@ class App extends Component {
     const { xAxisLabels, yAxisValues, system, criticalness } = state.chartData
     return (
       <Container fluid>
-      <small>По умолчанию импортирован фалй src/data/bugs_for_test.json. Но, также, можно импортировать аналогичный.</small>
-      <div className = "container-fluid bg-info">
-        <h3 className = 'd-inline-block'>Данные для обработки:{" "} </h3>
-        <input 
-            className = 'd-inline form-control-fil'
-            type="file"
-            id="fileInput"
-            onChange = {(event) => console.log(event)}
-        />
-        <button
-          className = 'btn btn-secondary' 
-          onClick = {this.loadFile}>Загрузить
-        </button>
-      </div>
-        <Filters
-          options = {options}
-          setter  = {setStateValue}
-          filterChart = {filterChart}
-          dateValues = {{
-            startDate:  state.chartData.startDate,
-            endDate:    state.chartData.endDate 
-          }}
-        />
-        <div>{
-          xAxisLabels.length ? 
-          <LineChart
-            title       = {system}
-            lineName    = {criticalness}
-            xAxisLabels = {xAxisLabels}
-            yAxisValues = {yAxisValues}
-          /> :  <div className = "alert alert-info" role="alert">
-                    <strong>Внимание!</strong> Задайте корректные параметры поиска данных для графика
-                </div>
-        }
-        </div>
+          <Info
+              loadFile = {this.loadFile}
+          />
+          <Filters
+            options = {options}
+            setter  = {setStateValue}
+            filterChart = {filterChart}
+              dateValues = {{
+                startDate:  state.chartData.startDate,
+                endDate:    state.chartData.endDate
+              }}
+            />
+            <div>{
+              xAxisLabels.length ?
+              <LineChart
+                title       = {system}
+                lineName    = {criticalness}
+                xAxisLabels = {xAxisLabels}
+                yAxisValues = {yAxisValues}
+              /> :  <div className = "alert alert-info" role="alert">
+                        <strong>Внимание!</strong> Задайте корректные параметры поиска данных для графика
+                    </div>
+            }
+            </div>
   
           <Table 
             title           = "Таблица исходных данных"
             options         = {options}
             headrows        = {state.data}
             rows            = {paginated}
-            openPage        ={openPage}
+            openPage        = {openPage}
             pageCount       = {Math.ceil(state.filtered.length/C.rowsOnPage)}
             pageSelected    = {pageSelected}
             filters         = {{
