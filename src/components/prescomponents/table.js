@@ -5,7 +5,7 @@ import { empty }        from '../../constants'
 import Pagination       from '../pagination'
 import $                from 'jquery'
 
-const { valuesToArray, attrsToArray, formatStr, createFilterField } = TableF
+const { valuesToArray, formatStr, createFilterField } = TableF
 
 // функция по очистке фильтров таблицы
 // в данном случае, использовать jQuery оказалось проще,
@@ -33,20 +33,22 @@ class Table extends React.Component{
                 <h2>{title}</h2>
                 <table className='table table-bordered table-striped table-hover'>
                     <thead className = 'thead-dark'>
-                        {
-                            attrsToArray(headrows[0]).map((attr, i) => 
-                                    <th scope="col">
-                                        {formatStr(attr)}  
-                                        {createFilterField(attr, options, filters, dateValues, i)}
-                                    </th>
-                            )
-                        }
+                        <tr>
+                            {
+                                Object.keys(headrows[0]).map((attr, i) =>
+                                        <th scope="col" key={i}>
+                                            {formatStr(attr)}
+                                            {createFilterField(attr, options, filters, dateValues, i)}
+                                        </th>
+                                )
+                            }
+                        </tr>
                     </thead>
                     {
                         (rows.length) ? 
                     <tbody>
                         {
-                            rows.map(row => <Row args={valuesToArray(row)}/>)
+                            rows.map((row, key) => <Row args={valuesToArray(row)} key={key}/>)
                         }
                     </tbody> : 
                     <div>
@@ -54,17 +56,17 @@ class Table extends React.Component{
                     </div>
                     }
                 </table>
-                <div class="btn-group float-left">
+                <div className="btn-group float-left">
                     <Pagination 
                         openPage ={openPage}
                         pageCount = {pageCount}
                         pageSelected = {pageSelected}
                     />
                 </div>
-                <div class="btn-group float-right" role="group" aria-label="Basic example">
+                <div className="btn-group float-right" role="group" aria-label="Basic example">
                     <button 
                         type="button"
-                        class="btn btn-secondary"
+                        className="btn btn-secondary"
                         onClick = {
                             () => {
                                 clearFilters()
@@ -75,7 +77,7 @@ class Table extends React.Component{
                     </button>
                     <button 
                         type="button"
-                        class="btn btn-secondary"
+                        className="btn btn-secondary"
                         onClick = {filterData}
                     > Отфильтровать 
                     </button>

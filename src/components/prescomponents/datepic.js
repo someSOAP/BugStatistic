@@ -1,17 +1,21 @@
 import React from 'react'
-import DatePicker from 'react-datepicker'
+import _DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css";
-
+import { Form } from "react-bootstrap";
 
 // Компонент выбора даты с заданными по-умолчанию настройками
-const DatePic = ({selected, onChange = f=>f, placeholder = ''}) => {
-    return <DatePicker 
+const DatePicker = ({selected, title, onChange = f=>f, placeholder = ''}) => {
+    return (
+        <Form.Group>
+            <Form.Label>{ title }</Form.Label>
+            <br/>
+            <_DatePicker
                 onChange                = {onChange}
                 selected                = {selected}
                 dateFormat              = "dd.MM.yyyy"
                 todayButton             = {"Сегодня"}
                 dropdownMode            = "select"
-                className               = "form-control form-control-sm"
+                className               = "form-control"
                 yearDropdownItemNumber  = {5}
                 isClearable             = {true}
                 placeholderText = {placeholder}
@@ -19,6 +23,9 @@ const DatePic = ({selected, onChange = f=>f, placeholder = ''}) => {
                 showYearDropdown
                 scrollableYearDropdown
             />
+        </Form.Group>
+        )
+
         
 } 
-export default DatePic
+export default DatePicker

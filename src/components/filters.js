@@ -1,7 +1,7 @@
 import React        from 'react'
 import Select       from './prescomponents/select'
-import DatePic      from './prescomponents/datepic'
-
+import DatePicker   from './prescomponents/datepic'
+import { Row, Col, Button } from 'react-bootstrap'
 
 //компонента с фильтрами для построения графика
 class Filters extends React.Component{
@@ -17,47 +17,57 @@ class Filters extends React.Component{
             }
         }
         return(
-            <div className = 'container-fluid'>
-                <h2>Фильтр данных для графика</h2>
-                <div className = 'd-inline-block'>
-                    <strong>Система:</strong>
-                    <Select 
-                        options = { systems } 
+            <Row>
+                <Col>
+                    <Select
+                        options = { systems }
+                        title   = "Система"
                         onSelect = {({target}) => {
                             setter('chartData', target.value, 'system')
                             renewChart()
                         }
-                    }
+                        }
                     />
-                </div>
-                <div className = 'd-inline-block'>
-                    <strong>Критичность:</strong>
-                    <Select 
-                        options = { criticalnesses }
+                </Col>
+                <Col>
+                    <Select
+                        options  = { criticalnesses }
+                        title    = "Критичность"
                         onSelect = {({target}) => {
                             setter('chartData', target.value, 'criticalness')
                             renewChart()
                         }}
                     />
-                </div>
-                <DatePic
-                    placeholder = "Дата от:"
-                    onChange = {(value) => {
+                </Col>
+                <Col>
+                    <DatePicker
+                        placeholder = "Дата от:"
+                        title = "Дата от"
+                        onChange = {(value) => {
                             setter('chartData', value, 'startDate')
                             renewChart()
                         }}
-                    selected = {startDate}
-                />
-                <DatePic
-                    placeholder = "Дата до:"
-                    onChange = {(value) => {
-                        setter('chartData', value, 'endDate')
-                        renewChart()
-                    }}
-                    selected = {endDate}
-                />
-                <button onClick = {filterChart}> Поиск </button>
-            </div>
+                        selected = {startDate}
+                    />
+                </Col>
+                <Col>
+                    <DatePicker
+                        placeholder = "Дата до:"
+                        title = "Дата до"
+                        onChange = {(value) => {
+                            setter('chartData', value, 'endDate')
+                            renewChart()
+                        }}
+                        selected = {endDate}
+                    />
+                </Col>
+                <Col>
+                    <br/>
+                    <Button onClick = {filterChart}>
+                        Поиск
+                    </Button>
+                </Col>
+            </Row>
         )
     }
 }

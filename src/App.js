@@ -5,6 +5,7 @@ import * as AppF            from "./functions/appfunctions";
 import * as C               from './constants/'
 import LineChart            from './components/chart'
 import $                    from 'jquery'
+import { Container }        from "react-bootstrap";
 const data = require('./data/bugs_for_test.json')
 
 //получаем все возможные значения для указанных полей
@@ -108,7 +109,7 @@ class App extends Component {
     const { createDate, changeDate, closeDate, paginated, pageSelected} = state
     const { xAxisLabels, yAxisValues, system, criticalness } = state.chartData
     return (
-      <div className="wrapper bg-light">
+      <Container fluid>
       <small>По умолчанию импортирован фалй src/data/bugs_for_test.json. Но, также, можно импортировать аналогичный.</small>
       <div className = "container-fluid bg-info">
         <h3 className = 'd-inline-block'>Данные для обработки:{" "} </h3>
@@ -164,7 +165,7 @@ class App extends Component {
                                 closeDate
                               }}
           />
-      </div>
+      </Container>
     );
   }
 }

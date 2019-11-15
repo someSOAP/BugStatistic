@@ -1,6 +1,6 @@
-import React    from 'react'
-import Select   from '../components/prescomponents/select'
-import DatePic  from '../components/prescomponents/datepic'
+import React      from 'react'
+import Select     from '../components/prescomponents/select'
+import DatePicker from '../components/prescomponents/datepic'
 import moment   from 'moment'
 // функции, используемые в компоненте таблица или для её посторения,
 // вынесены в этот модуль
@@ -10,11 +10,6 @@ import moment   from 'moment'
 // на основе этих значений строим строки таблицы
 function valuesToArray(obj){
     return Object.values(obj)
-}
-//преобразуем ключи объекта в массив
-// на основе этих значений будем строить заголовок таблицы
-function attrsToArray(obj){
-    return Object.keys(obj)
 }
 
 // преобразуем строку заголовка (перевод на русский некоторых значений)
@@ -40,14 +35,14 @@ function formatStr(string){
 // наличие этой галочки определяет влючение в результаты поиска 
 // значений == null 
 const includeNull = (onChange) =>
-    <div>Включая пустые: {" "}
+    <small>Включая пустые: {" "}
         <input type="checkbox" name="Включая пустые" onChange ={onChange}/>
-    </div>
+    </small>
 // компонента промежуток дат (от-> до)
 const  dateRange = (attr, setter, dateValue) => 
     <span>
-        <DatePic placeholder = "Дата от:" selected = {dateValue.from}  onChange = {(value) => setter(attr, value, 'from')}/> 
-        <DatePic placeholder = "Дата до:" selected = {dateValue.to}    onChange = {(value) => setter(attr, value, 'to')}/>
+        <DatePicker placeholder = "Дата от:" selected = {dateValue.from}  onChange = {(value) => setter(attr, value, 'from')}/>
+        <DatePicker placeholder = "Дата до:" selected = {dateValue.to}    onChange = {(value) => setter(attr, value, 'to')}/>
         {   
             (attr === 'closeDate') ?  
             includeNull(({target}) => setter(attr, target.checked, 'includeNull')) : ''
@@ -94,4 +89,4 @@ function createFilterField(attr, options, filters, dateValues){
 }
 
 
-export {valuesToArray, attrsToArray, formatStr, createFilterField}
+export {valuesToArray, formatStr, createFilterField}
