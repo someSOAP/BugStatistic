@@ -5,13 +5,36 @@ const initialState = {
     filteredData: [],
     table: {
         rowsOnPage: 15,
-        currentPage: 0,
-        pageData: []
+        currentPage: 1,
     },
     filters: {
-        system: [],
-        severity: [],
-        dates: []
+        system: {
+            value: [],
+            options: [],
+        },
+        severity: {
+            value: [],
+            options: [],
+        },
+        discovered: {
+            value: [],
+            options: [],
+        },
+        foundAt: {
+            value: [],
+            options: [],
+        },
+        defectType: {
+            value: [],
+            options: [],
+        },
+        status: {
+            value: [],
+            options: [],
+        },
+        dates: {
+            value: []
+        }
     }
 };
 

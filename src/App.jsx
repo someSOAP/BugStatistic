@@ -5,25 +5,33 @@ import Filters from './components/Filters'
 import Table from './components/Table'
 
 import { initialState, reducer } from "./store/";
-import { paginate } from "./store/actions";
+import {setFiltersOptions, onChangePage, setFiltersValue} from "./store/actions";
 import 'rsuite/dist/styles/rsuite-default.css'
 
+
 const Application = () => {
-    // const [state, dispatch] = useReducer(reducer, initialState);
-    //
-    // useEffect(()=>{
-    //     dispatch(paginate(0))
-    // }, []);
+    const [state, dispatch] = useReducer(reducer, initialState);
+
+    useEffect(()=>{
+        dispatch(setFiltersOptions());
+    }, []);
 
     return (
         <Container>
             <Header>
             </Header>
             <Content>
-                <Grid>
-                    <Filters filters={{}}/>
+                <Grid fluid>
+                    <Filters
+                        filters={state.filters}
+                        onChage={(filterVal)=>dispatch(setFiltersValue(filterVal))}
+                    />
                     <Row>
-                        <Table data={[]}/>
+                        <Table
+                            data={state.data}
+                            onChangePage={(pageNum) => dispatch(onChangePage(pageNum))}
+                            {...state.table}
+                        />
                     </Row>
                     <Row>
                         <CheckPicker data={[]}/>

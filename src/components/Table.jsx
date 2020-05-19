@@ -1,7 +1,7 @@
 import React from "react";
 import { Table } from 'rsuite';
 
-const { Column, HeaderCell, Cell } = Table;
+const { Column, HeaderCell, Cell, Pagination } = Table;
 const tabs = [
     {
         title: "ИД",
@@ -43,8 +43,9 @@ const tabs = [
 ];
 
 
-const DataTable = ({data}) => {
-    const mappedData = data.map((row)=>{
+const DataTable = ({data, rowsOnPage, currentPage, onChangePage}) => {
+    const pageData = data.slice((currentPage -1) * rowsOnPage, currentPage * rowsOnPage);
+    const mappedData = pageData.map((row)=>{
         return {
             ...row,
             "Дата закрытия":  new Date(row["Дата закрытия"]).toLocaleDateString(),
@@ -53,17 +54,26 @@ const DataTable = ({data}) => {
         }
     });
     return(
-        <Table data={mappedData} autoHeight>
-            {
-                tabs.map(({title, key}) => (
-                        <Column width={150} key={key}>
-                            <HeaderCell>{title}</HeaderCell>
-                            <Cell dataKey={key} />
-                        </Column>
+        <>
+            <Table data={mappedData} autoHeight>
+                {
+                    tabs.map(({title, key}) => (
+                            <Column width={150} key={key}>
+                                <HeaderCell>{title}</HeaderCell>
+                                <Cell dataKey={key} />
+                            </Column>
+                        )
                     )
-                )
-            }
-        </Table>
+                }
+            </Table>
+            <Pagination
+                activePage={currentPage}
+                displayLength = {rowsOnPage}
+                total = {data.length}
+                onChangePage = {onChangePage}
+                next
+            />
+        </>
     )
 };
 
