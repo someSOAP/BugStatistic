@@ -96,5 +96,6 @@ const DataTable = ({data, rowsOnPage, currentPage, onChangePage, onChangeLength}
 export default memo(DataTable, (prevState, nextState)=>{
     const samePage = prevState.currentPage === nextState.currentPage;
     const samePageLength = prevState.rowsOnPage === nextState.rowsOnPage;
-    return  samePage && samePageLength;
+    const sameData = prevState.data === nextState.data;
+    return  samePage && samePageLength && sameData;
 })

@@ -23,3 +23,7 @@ export const onChangeLength = (value) => ({
     type: C.SET_PAGE_LENGTH,
     value
 });
+
+export const filterData = () => ({
+    type: C.FILTER_DATA,
+});

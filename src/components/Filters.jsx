@@ -1,8 +1,7 @@
 import React        from 'react'
-import { CheckPicker, DateRangePicker, FlexboxGrid, Form, Col, Schema} from 'rsuite'
+import {CheckPicker, DateRangePicker, Form, Col, Schema, Row} from 'rsuite'
 import Widget from "./Widget";
 
-const { Item } = FlexboxGrid;
 
 const { ArrayType } = Schema.Types;
 const model = Schema.Model({
@@ -24,8 +23,8 @@ const Filters = ({filters, onChage}) => {
 
     return (
         <Form model={model} formValue={formValue} onChange={onChage}>
-            <FlexboxGrid justify="start">
-                <Item colspan={6} componentClass={Col}>
+            <Row>
+                <Col xs={24} sm={12} md={8} lg={3}>
                     <Widget
                         name     = "system"
                         label    = "Система"
@@ -33,8 +32,8 @@ const Filters = ({filters, onChage}) => {
                         data = {filters.system.options}
                         block
                     />
-                </Item>
-                <Item colspan={6} componentClass={Col}>
+                </Col>
+                <Col xs={24} sm={12} md={8} lg={3}>
                     <Widget
                         name     = "severity"
                         label    = "Критичность"
@@ -42,16 +41,52 @@ const Filters = ({filters, onChage}) => {
                         data = {filters.severity.options}
                         block
                     />
-                </Item>
-                <Item colspan={6} componentClass={Col}>
+                </Col>
+                <Col xs={24} sm={12} md={8} lg={3}>
+                    <Widget
+                        name     = "discovered"
+                        label    = "Метод обнаружения"
+                        accepter = {CheckPicker}
+                        data = {filters.discovered.options}
+                        block
+                    />
+                </Col>
+                <Col xs={24} sm={12} md={8} lg={3}>
+                    <Widget
+                        name     = "foundAt"
+                        label    = "Найдено при"
+                        accepter = {CheckPicker}
+                        data = {filters.foundAt.options}
+                        block
+                    />
+                </Col>
+                <Col xs={24} sm={12} md={8} lg={3}>
+                    <Widget
+                        name     = "defectType"
+                        label    = "Тип дефекта"
+                        accepter = {CheckPicker}
+                        data = {filters.defectType.options}
+                        block
+                    />
+                </Col>
+                <Col xs={24} sm={12} md={8} lg={3}>
+                    <Widget
+                        name     = "status"
+                        label    = "Состояние"
+                        accepter = {CheckPicker}
+                        data = {filters.status.options}
+                        block
+                    />
+                </Col>
+                <Col xs={24} sm={12} md={8} lg={3}>
                     <Widget
                         name     = "dates"
                         label    = "Период"
                         accepter = {DateRangePicker}
                         block
                     />
-                </Item>
-            </FlexboxGrid>
+                </Col>
+            </Row>
         </Form>
     )
 };

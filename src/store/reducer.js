@@ -1,4 +1,38 @@
-import {SET_FILTERS_VALUE, SET_FILTERS_OPTIONS, SET_PAGE_NUMBER, SET_PAGE_LENGTH} from "./constatns";
+import { SET_FILTERS_VALUE, SET_FILTERS_OPTIONS, SET_PAGE_NUMBER, SET_PAGE_LENGTH, FILTER_DATA } from "./constatns";
+
+const tableReducerMapper = [
+    {
+        table: "System",
+        reducer: "system"
+    }, {
+        table: "Критичность",
+        reducer: "severity"
+    }, {
+        table: "Метод обнаружения",
+        reducer: "discovered"
+    }, {
+        table: "Найдено при",
+        reducer: "foundAt"
+    }, {
+        table: "Тип Дефекта",
+        reducer: "defectType"
+    }, {
+        table: "Состояние",
+        reducer: "status"
+    }
+];
+
+
+const filterData = (originalData, filters) => {
+
+    return originalData.filter((row) => {
+        return tableReducerMapper.reduce((result, {table, reducer})=>{
+            return result && (filters[reducer].value.length ? filters[reducer].value.includes(row[table]) : true);
+        }, true)
+    })
+};
+
+
 
 const setFiltersValue = (state, filters) => {
     const newFilters = {...state.filters};
@@ -6,17 +40,18 @@ const setFiltersValue = (state, filters) => {
         newFilters[key].value = filters[key]
     });
 
-    return {...state, filters: newFilters}
+    return {
+        ...state,
+        filters: newFilters,
+        data: filterData(state.originalData, newFilters)
+    }
 };
 
 const setFiltersOptions = (state) => {
     const options = state.data.reduce((values, row)=>{
-        if(!values.system.includes(row["System"])) values.system.push(row["System"]);
-        if(!values.severity.includes(row["Критичность"])) values.severity.push(row["Критичность"]);
-        if(!values.discovered.includes(row["Метод обнаружения"])) values.discovered.push(row["Метод обнаружения"]);
-        if(!values.foundAt.includes(row["Найдено при"])) values.foundAt.push(row["Найдено при"]);
-        if(!values.defectType.includes(row["Тип Дефекта"])) values.defectType.push(row["Тип Дефекта"]);
-        if(!values.defectType.includes(row["Состояние"])) values.status.push(row["Состояние"]);
+        tableReducerMapper.forEach(({table, reducer})=>{
+            if(!values[reducer].includes(row[table])) values[reducer].push(row[table]);
+        });
         return values
     }, {
         system: [],
@@ -63,6 +98,9 @@ const reducer = (state, {type, value}) => {
                     rowsOnPage: value,
                 },
             };
+
+        case FILTER_DATA:
+            return filterData(state);
 
         default:
             return state;

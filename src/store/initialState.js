@@ -1,8 +1,8 @@
 import data from './bugs_for_test'
 
 const initialState = {
+    originalData: data,
     data,
-    filteredData: [],
     table: {
         rowsOnPage: 15,
         currentPage: 1,
