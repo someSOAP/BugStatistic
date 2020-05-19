@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { Table } from 'rsuite';
 
 const { Column, HeaderCell, Cell, Pagination } = Table;
@@ -43,7 +43,8 @@ const tabs = [
 ];
 
 
-const DataTable = ({data, rowsOnPage, currentPage, onChangePage}) => {
+const DataTable = ({data, rowsOnPage, currentPage, onChangePage, onChangeLength}) => {
+
     const pageData = data.slice((currentPage -1) * rowsOnPage, currentPage * rowsOnPage);
     const mappedData = pageData.map((row)=>{
         return {
@@ -67,14 +68,33 @@ const DataTable = ({data, rowsOnPage, currentPage, onChangePage}) => {
                 }
             </Table>
             <Pagination
+                lengthMenu={[
+                    {
+                        value: 10,
+                        label: 10
+                    },
+                    {
+                        value: 15,
+                        label: 15
+                    },
+                    {
+                        value: 20,
+                        label: 20
+                    }
+                ]}
                 activePage={currentPage}
                 displayLength = {rowsOnPage}
                 total = {data.length}
                 onChangePage = {onChangePage}
+                onChangeLength = {onChangeLength}
                 next
             />
         </>
     )
 };
 
-export default DataTable
+export default memo(DataTable, (prevState, nextState)=>{
+    const samePage = prevState.currentPage === nextState.currentPage;
+    const samePageLength = prevState.rowsOnPage === nextState.rowsOnPage;
+    return  samePage && samePageLength;
+})

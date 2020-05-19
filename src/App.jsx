@@ -1,11 +1,11 @@
 import React, { useReducer, useEffect } from 'react';
-import { Container, Header, Content, Grid, Row, Col, Button, CheckPicker } from "rsuite";
+import { Container, Header, Content, Grid, Row } from "rsuite";
 
 import Filters from './components/Filters'
 import Table from './components/Table'
 
 import { initialState, reducer } from "./store/";
-import {setFiltersOptions, onChangePage, setFiltersValue} from "./store/actions";
+import { setFiltersOptions, onChangePage, setFiltersValue, onChangeLength } from "./store/actions";
 import 'rsuite/dist/styles/rsuite-default.css'
 
 
@@ -30,16 +30,10 @@ const Application = () => {
                         <Table
                             data={state.data}
                             onChangePage={(pageNum) => dispatch(onChangePage(pageNum))}
+                            onChangeLength = {(pageLength) => dispatch(onChangeLength(pageLength))}
+
                             {...state.table}
                         />
-                    </Row>
-                    <Row>
-                        <CheckPicker data={[]}/>
-                    </Row>
-                    <Row>
-                        <Col lg={12}>
-                            <Button onClick={() => console.log()}>TST</Button>
-                        </Col>
                     </Row>
                 </Grid>
             </Content>

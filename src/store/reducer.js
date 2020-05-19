@@ -1,4 +1,4 @@
-import { SET_FILTERS_VALUE, SET_FILTERS_OPTIONS, SET_PAGE_NUMBER } from "./constatns";
+import {SET_FILTERS_VALUE, SET_FILTERS_OPTIONS, SET_PAGE_NUMBER, SET_PAGE_LENGTH} from "./constatns";
 
 const setFiltersValue = (state, filters) => {
     const newFilters = {...state.filters};
@@ -51,6 +51,16 @@ const reducer = (state, {type, value}) => {
                 table: {
                     ...state.table,
                     currentPage: value,
+                },
+            };
+
+        case SET_PAGE_LENGTH:
+            debugger;
+            return {
+                ...state,
+                table: {
+                    ...state.table,
+                    rowsOnPage: value,
                 },
             };
 

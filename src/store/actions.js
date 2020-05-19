@@ -14,9 +14,12 @@ export const setFiltersOptions = () => {
     }
 };
 
-export const onChangePage = (value) => {
-    return {
-        type: C.SET_PAGE_NUMBER,
-        value
-    }
-};
+export const onChangePage = (value) => ({
+    type: C.SET_PAGE_NUMBER,
+    value
+});
+
+export const onChangeLength = (value) => ({
+    type: C.SET_PAGE_LENGTH,
+    value
+});
