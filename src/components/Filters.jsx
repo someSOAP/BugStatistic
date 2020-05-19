@@ -1,9 +1,59 @@
 import React        from 'react'
-import Select       from './prescomponents/select'
-import DatePicker   from './prescomponents/datepic'
-import { Row, Col, Button } from 'react-bootstrap'
+import { CheckPicker, DateRangePicker, FlexboxGrid, Form, Schema, Button } from 'rsuite'
+import WidgetWrapper from "./WidgetWrapper";
+import Widget from "./Widget";
 
-//компонента с фильтрами для построения графика
+const { Item } = FlexboxGrid;
+
+const { ArrayType } = Schema.Types;
+const model = Schema.Model({
+    system: ArrayType(),
+    severity: ArrayType(),
+    dates: ArrayType()
+});
+
+
+const Filters = ({filters, onChage = console.log}) => {
+    return (
+        <Form model={model} formValue={filters} onChange={onChage}>
+            <FlexboxGrid justify="space-between">
+                <Item colspan={6}>
+                    <Widget
+                        name     = "system"
+                        label    = "Система"
+                        accepter = {CheckPicker}
+                        data = {[]}
+                    />
+                </Item>
+                <Item colspan={6}>
+                    <Widget
+                        name     = "severity"
+                        label    = "Критичность"
+                        accepter = {CheckPicker}
+                        data = {[]}
+
+                    />
+                </Item>
+                <Item colspan={6}>
+                    <Widget
+                        name     = "dates"
+                        label    = "Период"
+                        accepter = {DateRangePicker}
+                    />
+                </Item>
+                <Item colspan={6}>
+                    <WidgetWrapper title={"_"}>
+                        <Button block onClick = {console.log}>
+                            Поиск
+                        </Button>
+                    </WidgetWrapper>
+                </Item>
+            </FlexboxGrid>
+        </Form>
+    )
+};
+
+/*
 class Filters extends React.Component{
     render(){
         const { options, setter, dateValues, filterChart =f=>f } = this.props
@@ -71,5 +121,6 @@ class Filters extends React.Component{
         )
     }
 }
+*/
 
 export default Filters

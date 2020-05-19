@@ -1,15 +1,12 @@
 import React from 'react'
-import _DatePicker from 'react-datepicker'
+import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css";
-import { Form } from "react-bootstrap";
+import WidgetWrapper from "./WidgetWrapper";
 
-// Компонент выбора даты с заданными по-умолчанию настройками
-const DatePicker = ({selected, title, onChange = f=>f, placeholder = ''}) => {
+const CustomDatePicker = ({selected, title, onChange = f=>f, placeholder = ''}) => {
     return (
-        <Form.Group>
-            <Form.Label>{ title }</Form.Label>
-            <br/>
-            <_DatePicker
+        <WidgetWrapper title = {title}>
+            <DatePicker
                 onChange                = {onChange}
                 selected                = {selected}
                 dateFormat              = "dd.MM.yyyy"
@@ -18,14 +15,12 @@ const DatePicker = ({selected, title, onChange = f=>f, placeholder = ''}) => {
                 className               = "form-control"
                 yearDropdownItemNumber  = {5}
                 isClearable             = {true}
-                placeholderText = {placeholder}
+                placeholderText         = {placeholder}
                 showMonthDropdown
                 showYearDropdown
                 scrollableYearDropdown
             />
-        </Form.Group>
-        )
-
-        
-} 
-export default DatePicker
+        </WidgetWrapper>
+    )
+};
+export default CustomDatePicker

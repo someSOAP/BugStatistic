@@ -37,19 +37,19 @@ export default class LineChart extends React.Component{
     }
 
     render() {
-        const { title, lineName, xAxisLabels, yAxisValues } = this.props
-        const dataset = data.datasets[0]
+        const { title, lineName, xAxisLabels, yAxisValues } = this.props;
+        const dataset = data.datasets[0];
         //берём демонстрационные даныне и заменяем в них поля data и label на наши из props
         const newDataset = {
             ...dataset,
             data: yAxisValues,
             label: lineName
-        }
-        const datasets = [newDataset]
+        };
+        const datasets = [newDataset];
         const newData = {
             labels: xAxisLabels,
             datasets
-        }
+        };
         return (
         <div>
             <h2>{title ? title : "Title" }</h2>
