@@ -3,9 +3,13 @@ import data from './bugs_for_test'
 const initialState = {
     originalData: data,
     data,
+    activeTab: "data",
     table: {
         rowsOnPage: 15,
         currentPage: 1,
+    },
+    chart: {
+
     },
     filters: {
         system: {

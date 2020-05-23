@@ -24,6 +24,9 @@ export const onChangeLength = (value) => ({
     value
 });
 
-export const filterData = () => ({
-    type: C.FILTER_DATA,
+export const setActiveTab = (value) => ({
+    type: C.SET_ACTIVE_TAB,
+    value
 });
+
+

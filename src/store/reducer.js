@@ -1,4 +1,4 @@
-import { SET_FILTERS_VALUE, SET_FILTERS_OPTIONS, SET_PAGE_NUMBER, SET_PAGE_LENGTH, FILTER_DATA } from "./constatns";
+import * as C from "./constatns";
 
 const tableReducerMapper = [
     {
@@ -25,11 +25,20 @@ const tableReducerMapper = [
 
 const filterData = (originalData, filters) => {
 
+    const { dates } = filters;
+
+    debugger;
     return originalData.filter((row) => {
-        return tableReducerMapper.reduce((result, {table, reducer})=>{
+        const inFiltersValues = tableReducerMapper.reduce((result, {table, reducer})=>{
             return result && (filters[reducer].value.length ? filters[reducer].value.includes(row[table]) : true);
-        }, true)
-    })
+        }, true);
+
+        const createDate = new Date(row["Дата создания"]);
+        const inDates = (dates.value && dates.value.length) ? (createDate >= dates.value[0] && createDate <= dates.value[1]) : true;
+
+        return inFiltersValues && inDates;
+    });
+
 };
 
 
@@ -73,14 +82,13 @@ const setFiltersOptions = (state) => {
 const reducer = (state, {type, value}) => {
     switch (type) {
 
-        case SET_FILTERS_VALUE:
-            debugger;
+        case C.SET_FILTERS_VALUE:
             return setFiltersValue(state, value);
 
-        case SET_FILTERS_OPTIONS:
+        case C.SET_FILTERS_OPTIONS:
             return setFiltersOptions(state);
 
-        case SET_PAGE_NUMBER:
+        case C.SET_PAGE_NUMBER:
             return {
                 ...state,
                 table: {
@@ -89,8 +97,7 @@ const reducer = (state, {type, value}) => {
                 },
             };
 
-        case SET_PAGE_LENGTH:
-            debugger;
+        case C.SET_PAGE_LENGTH:
             return {
                 ...state,
                 table: {
@@ -99,8 +106,11 @@ const reducer = (state, {type, value}) => {
                 },
             };
 
-        case FILTER_DATA:
-            return filterData(state);
+        case C.SET_ACTIVE_TAB:
+            return {
+                ...state,
+                activeTab: value
+            };
 
         default:
             return state;

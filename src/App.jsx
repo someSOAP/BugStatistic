@@ -3,10 +3,11 @@ import { Container, Header, Content, Grid, Row } from "rsuite";
 
 import Filters from './components/Filters'
 import Table from './components/Table'
+import Tabs from './components/Tabs'
 
 import { initialState, reducer } from "./store/";
-import { setFiltersOptions, onChangePage, setFiltersValue, onChangeLength } from "./store/actions";
-import 'rsuite/dist/styles/rsuite-default.css'
+import { setFiltersOptions, onChangePage, setFiltersValue, onChangeLength, setActiveTab } from "./store/actions";
+
 
 
 const Application = () => {
@@ -26,6 +27,12 @@ const Application = () => {
                         filters={state.filters}
                         onChage={(filterVal)=>dispatch(setFiltersValue(filterVal))}
                     />
+                    <Row>
+                        <Tabs
+                            activeTab={state.activeTab}
+                            onSelect={(tab)=>dispatch(setActiveTab(tab))}
+                        />
+                    </Row>
                     <Row>
                         <Table
                             data={state.data}

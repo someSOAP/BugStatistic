@@ -5,3 +5,7 @@ body,
 .rs-container {
   height: 100%;
 }
+
+.rs-form-control-wrapper {
+  width: 100%;
+}
