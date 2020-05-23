@@ -1,13 +1,23 @@
 import React from 'react';
 
-import { Nav } from 'rsuite'
+import { Nav, Row } from 'rsuite'
 
-const Tabs = ({activeTab, onSelect}) => {
+const Tabs = ({activeTab, onSelect, children}) => {
     return (
-        <Nav appearance="subtle" activeKey={activeTab} onSelect={onSelect}>
-            <Nav.Item eventKey="data">Данные по багам</Nav.Item>
-            <Nav.Item eventKey="chart">График</Nav.Item>
-        </Nav>
+        <>
+            <Row>
+                <Nav appearance="subtle" activeKey={activeTab} onSelect={onSelect}>
+                    <Nav.Item eventKey="data">Данные по багам</Nav.Item>
+                    <Nav.Item eventKey="chart">График</Nav.Item>
+                </Nav>
+            </Row>
+            <Row>
+                {
+                    activeTab === "data" ?
+                        children[0] : children[1]
+                }
+            </Row>
+        </>
     )
 };
 

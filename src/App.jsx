@@ -4,6 +4,7 @@ import { Container, Header, Content, Grid, Row } from "rsuite";
 import Filters from './components/Filters'
 import Table from './components/Table'
 import Tabs from './components/Tabs'
+import Chart from './components/Chart'
 
 import { initialState, reducer } from "./store/";
 import { setFiltersOptions, onChangePage, setFiltersValue, onChangeLength, setActiveTab } from "./store/actions";
@@ -27,13 +28,12 @@ const Application = () => {
                         filters={state.filters}
                         onChage={(filterVal)=>dispatch(setFiltersValue(filterVal))}
                     />
-                    <Row>
-                        <Tabs
-                            activeTab={state.activeTab}
-                            onSelect={(tab)=>dispatch(setActiveTab(tab))}
-                        />
-                    </Row>
-                    <Row>
+
+                    <Tabs
+                        activeTab={state.activeTab}
+                        onSelect={(tab)=>dispatch(setActiveTab(tab))}
+                    >
+
                         <Table
                             data={state.data}
                             onChangePage={(pageNum) => dispatch(onChangePage(pageNum))}
@@ -41,7 +41,8 @@ const Application = () => {
 
                             {...state.table}
                         />
-                    </Row>
+                        <Chart data={state.data}/>
+                    </Tabs>
                 </Grid>
             </Content>
         </Container>
