@@ -1,15 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import * as serviceWorker from './serviceWorker';
-import $ from 'jquery'
+import { IntlProvider } from "rsuite";
+import ruLocale from "./ruLocale";
+import 'rsuite/dist/styles/rsuite-default.css'
+import './index.css'
 
-window.$ = $                //для возможность доступа к jQuery через браузерную консоль
+ReactDOM.render(
+    <IntlProvider locale={ruLocale}>
+        <App/>
+    </IntlProvider>,
+    document.getElementById('root')
+);
 
-ReactDOM.render(<App/>, document.getElementById('root'));
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: http://bit.ly/CRA-PWA
 serviceWorker.unregister();
