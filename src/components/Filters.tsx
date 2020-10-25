@@ -1,7 +1,7 @@
 import React        from 'react'
 import {CheckPicker, DateRangePicker, Form, Col, Schema, Row} from 'rsuite'
 import Widget from "./Widget";
-
+import { Filters as FiltersType } from '../store/model'
 
 const { ArrayType } = Schema.Types;
 const model = Schema.Model({
@@ -11,10 +11,15 @@ const model = Schema.Model({
 });
 
 
-const Filters = ({filters, onChage}) => {
+type FiltersProps = {
+    filters: FiltersType,
+    onChange: (val: any) => void
+}
+
+const Filters: React.FC<FiltersProps> = ({filters, onChange}) => {
 
     const formValue = Object.keys(filters).reduce(
-        (formVal, key)=>{
+        (formVal: any, key: string)=>{
             formVal[key] = filters[key].value;
             return formVal;
         },
@@ -22,7 +27,11 @@ const Filters = ({filters, onChage}) => {
     );
 
     return (
-        <Form model={model} formValue={formValue} onChange={onChage}>
+        <Form
+            model     = {model}
+            formValue = {formValue}
+            onChange  = {onChange}
+        >
             <Row>
                 <Col xs={24} sm={12} md={8} lg={3}>
                     <Widget
@@ -65,7 +74,7 @@ const Filters = ({filters, onChage}) => {
                         name     = "defectType"
                         label    = "Тип дефекта"
                         accepter = {CheckPicker}
-                        data = {filters.defectType.options}
+                        data     = {filters.defectType.options}
                         block
                     />
                 </Col>
@@ -74,7 +83,7 @@ const Filters = ({filters, onChage}) => {
                         name     = "status"
                         label    = "Состояние"
                         accepter = {CheckPicker}
-                        data = {filters.status.options}
+                        data     = {filters.status.options}
                         block
                     />
                 </Col>
@@ -83,6 +92,7 @@ const Filters = ({filters, onChage}) => {
                         name     = "dates"
                         label    = "Период"
                         accepter = {DateRangePicker}
+                        preventOverflow
                         block
                     />
                 </Col>

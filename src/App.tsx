@@ -6,13 +6,13 @@ import Table from './components/Table'
 import Tabs from './components/Tabs'
 import Chart from './components/Chart'
 
-import { initialState, reducer } from "./store/";
+import { initialState, reducer } from "./store";
 import { setFiltersOptions, onChangePage, setFiltersValue, onChangeLength, setActiveTab } from "./store/actions";
 
+import { State } from './store/model'
 
-
-const Application = () => {
-    const [state, dispatch] = useReducer(reducer, initialState);
+const Application: React.FC = () => {
+    const [state, dispatch] : [State, (action: any) => void] = useReducer(reducer, initialState);
 
     useEffect(()=>{
         dispatch(setFiltersOptions());
@@ -26,22 +26,24 @@ const Application = () => {
                 <Grid fluid>
                     <Filters
                         filters={state.filters}
-                        onChage={(filterVal)=>dispatch(setFiltersValue(filterVal))}
+                        onChange={(filterVal)=>dispatch(setFiltersValue(filterVal))}
                     />
 
                     <Tabs
                         activeTab={state.activeTab}
                         onSelect={(tab)=>dispatch(setActiveTab(tab))}
                     >
+                        {
+                            state.activeTab === "data" ?
+                            <Table
+                                data={state.data}
+                                onChangePage={(pageNum) => dispatch(onChangePage(pageNum))}
+                                onChangeLength = {(pageLength) => dispatch(onChangeLength(pageLength))}
 
-                        <Table
-                            data={state.data}
-                            onChangePage={(pageNum) => dispatch(onChangePage(pageNum))}
-                            onChangeLength = {(pageLength) => dispatch(onChangeLength(pageLength))}
-
-                            {...state.table}
-                        />
-                        <Chart data={state.data}/>
+                                {...state.table}
+                            /> :
+                            <Chart data={state.data}/>
+                        }
                     </Tabs>
                 </Grid>
             </Content>

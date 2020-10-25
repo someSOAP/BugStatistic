@@ -1,7 +1,15 @@
 import React from "react";
 import { FormGroup, ControlLabel, FormControl } from 'rsuite'
 
-const Widget = ({ name, label, accepter, ...props }) => {
+type WidgetProps = {
+    name: string,
+    label: string,
+    accepter: React.ComponentType<any>,
+    [propName: string]: any
+}
+
+
+const Widget : React.FC<WidgetProps> = ({ name, label, accepter, ...props }) => {
 
     return (
         <FormGroup>
@@ -11,4 +19,4 @@ const Widget = ({ name, label, accepter, ...props }) => {
     )
 };
 
-export default Widget
+export default Widget;

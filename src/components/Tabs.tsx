@@ -2,7 +2,12 @@ import React from 'react';
 
 import { Nav, Row } from 'rsuite'
 
-const Tabs = ({activeTab, onSelect, children}) => {
+type TabsProps = {
+    activeTab: string,
+    onSelect: (tabName: string) => void,
+}
+
+const Tabs: React.FC<TabsProps> = ({activeTab, onSelect, children}) => {
     return (
         <>
             <Row>
@@ -13,12 +18,11 @@ const Tabs = ({activeTab, onSelect, children}) => {
             </Row>
             <Row>
                 {
-                    activeTab === "data" ?
-                        children[0] : children[1]
+                    children
                 }
             </Row>
         </>
     )
 };
 
-export default Tabs
+export default Tabs;

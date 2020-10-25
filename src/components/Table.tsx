@@ -2,7 +2,13 @@ import React, { memo } from "react";
 import { Table } from 'rsuite';
 
 const { Column, HeaderCell, Cell, Pagination } = Table;
-const tabs = [
+
+type Tab = {
+    title: string,
+    key: string,
+}
+
+const tabs: Array<Tab> = [
     {
         title: "ИД",
         key: "ID"
@@ -42,8 +48,35 @@ const tabs = [
     }
 ];
 
+type TableProps = {
+    data: Array<any>,
+    rowsOnPage: number,
+    currentPage: number,
+    onChangePage: (pageNum: number) => void,
+    onChangeLength: (length: number) => void
+}
 
-const DataTable = ({data, rowsOnPage, currentPage, onChangePage, onChangeLength}) => {
+type lengthOption = {
+    value: number,
+    label: string
+}
+
+const lengthMenu: Array<lengthOption> = [
+    {
+        value: 10,
+        label: "10"
+    },
+    {
+        value: 15,
+        label: "15"
+    },
+    {
+        value: 20,
+        label: "20"
+    }
+];
+
+const DataTable: React.FC<TableProps> = ({data, rowsOnPage, currentPage, onChangePage, onChangeLength}) => {
 
     const pageData = data.slice((currentPage -1) * rowsOnPage, currentPage * rowsOnPage);
     const mappedData = pageData.map((row)=>{
@@ -68,24 +101,11 @@ const DataTable = ({data, rowsOnPage, currentPage, onChangePage, onChangeLength}
                 }
             </Table>
             <Pagination
-                lengthMenu={[
-                    {
-                        value: 10,
-                        label: 10
-                    },
-                    {
-                        value: 15,
-                        label: 15
-                    },
-                    {
-                        value: 20,
-                        label: 20
-                    }
-                ]}
-                activePage={currentPage}
-                displayLength = {rowsOnPage}
-                total = {data.length}
-                onChangePage = {onChangePage}
+                lengthMenu     = {lengthMenu}
+                activePage     = {currentPage}
+                displayLength  = {rowsOnPage}
+                total          = {data.length}
+                onChangePage   = {onChangePage}
                 onChangeLength = {onChangeLength}
                 next
             />

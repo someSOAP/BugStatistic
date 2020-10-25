@@ -1,6 +1,8 @@
+// @ts-ignore
 import data from './bugs_for_test'
+import { State } from './model'
 
-const initialState = {
+const initialState: State = {
     originalData: data,
     data,
     activeTab: "data",

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Line } from 'react-chartjs-2'
 
-const dataSetColors = [
+const dataSetColors: Array<string> = [
     "rgb(255, 159, 64)",
     "rgb(255, 99, 132)",
     "rgb(75, 192, 192)",
@@ -10,7 +10,7 @@ const dataSetColors = [
     "rgb(153, 102, 255)"
 ];
 
-const getRandomRgb = () => {
+const getRandomRgb = (): string => {
     const num = Math.round(0xffffff * Math.random());
     const r = num >> 16;
     const g = num >> 8 & 255;
@@ -18,8 +18,12 @@ const getRandomRgb = () => {
     return `rgb(${r},${g},${b})`;
 };
 
-const Chart = ({data}) => {
-    const chartData = data.reduce((data, row)=>{
+type ChartProps = {
+    data: any
+}
+
+const Chart: React.FC<ChartProps> = ({data}) => {
+    const chartData = data.reduce((data: any, row: any): any => {
         const createDate = new Date(row["Дата создания"]);
         const localCreateDate = createDate.toLocaleDateString();
         if(!data.labels.includes(localCreateDate)){
@@ -52,7 +56,7 @@ const Chart = ({data}) => {
         datasets: {}
     });
     chartData.datasets = Object.values(chartData.datasets);
-    chartData.datasets.forEach((dataset)=>{
+    chartData.datasets.forEach((dataset: any)=>{
         dataset.data = Object.values(dataset.data);
     });
 

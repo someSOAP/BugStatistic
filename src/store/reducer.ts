@@ -1,6 +1,14 @@
-import * as C from "./constatns";
+import C from "./constatns";
 
-const tableReducerMapper = [
+import { Action } from './actions'
+import { State } from './model'
+
+type TableReducer = {
+    table: string,
+    reducer: string
+}
+
+const tableReducerMapper: Array<TableReducer> = [
     {
         table: "System",
         reducer: "system"
@@ -23,12 +31,11 @@ const tableReducerMapper = [
 ];
 
 
-const filterData = (originalData, filters) => {
+const filterData = (originalData: any, filters: any) => {
 
     const { dates } = filters;
 
-    debugger;
-    return originalData.filter((row) => {
+    return originalData.filter((row: any) => {
         const inFiltersValues = tableReducerMapper.reduce((result, {table, reducer})=>{
             return result && (filters[reducer].value.length ? filters[reducer].value.includes(row[table]) : true);
         }, true);
@@ -43,7 +50,7 @@ const filterData = (originalData, filters) => {
 
 
 
-const setFiltersValue = (state, filters) => {
+const setFiltersValue = (state: State, filters: any) => {
     const newFilters = {...state.filters};
     Object.keys(filters).forEach((key)=>{
         newFilters[key].value = filters[key]
@@ -56,7 +63,7 @@ const setFiltersValue = (state, filters) => {
     }
 };
 
-const setFiltersOptions = (state) => {
+const setFiltersOptions = (state: State) => {
     const options = state.data.reduce((values, row)=>{
         tableReducerMapper.forEach(({table, reducer})=>{
             if(!values[reducer].includes(row[table])) values[reducer].push(row[table]);
@@ -72,14 +79,14 @@ const setFiltersOptions = (state) => {
     });
 
     const newFilters = Object.keys(options).reduce((filters, key)=>{
-        filters[key].options = options[key].map(it => ({label: it, value: it}));
+        filters[key].options = options[key].map((it: any) => ({label: it, value: it}));
         return filters;
     }, {...state.filters});
 
     return {...state, filters: newFilters}
 };
 
-const reducer = (state, {type, value}) => {
+const reducer = (state: State, { type, value } : Action) => {
     switch (type) {
 
         case C.SET_FILTERS_VALUE:
