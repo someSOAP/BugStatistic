@@ -1,5 +1,5 @@
 import React, { useReducer, useEffect } from 'react';
-import { Container, Header, Content, Grid, Row } from "rsuite";
+import { Container, Content, Grid } from "rsuite";
 
 import Filters from './components/Filters'
 import Table from './components/Table'
@@ -20,8 +20,6 @@ const Application: React.FC = () => {
 
     return (
         <Container>
-            <Header>
-            </Header>
             <Content>
                 <Grid fluid>
                     <Filters

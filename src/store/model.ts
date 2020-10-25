@@ -1,6 +1,11 @@
+export type FilterOption = {
+    label: string,
+    value: string | number,
+}
+
 export type Filter = {
-    value: Array<any>,
-    options?: Array<any>,
+    value: Array<FilterOption | Date> ,
+    options?: Array<FilterOption>,
 }
 
 export type Table = {

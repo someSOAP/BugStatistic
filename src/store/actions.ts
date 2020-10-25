@@ -4,7 +4,6 @@ export class Action {
     public type: Constant;
     public value?: any;
 
-
     constructor (
         type: Constant,
         value?: any

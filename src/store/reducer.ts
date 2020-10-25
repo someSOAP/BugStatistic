@@ -1,7 +1,7 @@
 import C from "./constatns";
 
 import { Action } from './actions'
-import { State } from './model'
+import {Filter, FilterOption, Filters, State} from './model'
 
 type TableReducer = {
     table: string,
@@ -31,7 +31,7 @@ const tableReducerMapper: Array<TableReducer> = [
 ];
 
 
-const filterData = (originalData: any, filters: any) => {
+const filterData = (originalData: any, filters: Filters): Array<any> => {
 
     const { dates } = filters;
 
@@ -50,10 +50,12 @@ const filterData = (originalData: any, filters: any) => {
 
 
 
-const setFiltersValue = (state: State, filters: any) => {
-    const newFilters = {...state.filters};
-    Object.keys(filters).forEach((key)=>{
-        newFilters[key].value = filters[key]
+const setFiltersValue = (state: State, filters: any) : State => {
+    const newFilters: Filters = {...state.filters};
+
+    Object.keys(filters).forEach((key: string): void => {
+        const filter: Filter = newFilters[key];
+        filter.value = filters[key];
     });
 
     return {
@@ -63,8 +65,8 @@ const setFiltersValue = (state: State, filters: any) => {
     }
 };
 
-const setFiltersOptions = (state: State) => {
-    const options = state.data.reduce((values, row)=>{
+const setFiltersOptions = (state: State) : State => {
+    const options = state.data.reduce((values: any, row: any)=>{
         tableReducerMapper.forEach(({table, reducer})=>{
             if(!values[reducer].includes(row[table])) values[reducer].push(row[table]);
         });
@@ -78,15 +80,17 @@ const setFiltersOptions = (state: State) => {
         status: []
     });
 
-    const newFilters = Object.keys(options).reduce((filters, key)=>{
-        filters[key].options = options[key].map((it: any) => ({label: it, value: it}));
-        return filters;
-    }, {...state.filters});
+    const newFilters: Filters = Object.keys(options)
+        .reduce((filters: Filters, key: string): Filters => {
+                filters[key].options = options[key].map((it: FilterOption) => ({label: String(it), value: it}));
+                return filters;
+            }, {...state.filters}
+        );
 
     return {...state, filters: newFilters}
 };
 
-const reducer = (state: State, { type, value } : Action) => {
+const reducer = (state: State, { type, value } : Action): State => {
     switch (type) {
 
         case C.SET_FILTERS_VALUE:
